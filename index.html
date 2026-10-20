@@ -322,6 +322,88 @@
             animation: falling linear forwards;
         }
 
+        /* ===== Hiệu ứng mới ===== */
+        .today-banner {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: linear-gradient(110deg, #e9699c, #a77cdb);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            box-shadow: 0 8px 22px #d85f9440;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .typewriter-cursor::after {
+            content: "|";
+            margin-left: 2px;
+            color: var(--pink);
+            animation: blink .8s steps(1) infinite;
+        }
+
+        .hug-button {
+            margin-top: 26px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(110deg, #e9699c, #9b72cf);
+            box-shadow: 0 10px 25px #d85f9440;
+            transition: transform .2s, filter .2s;
+        }
+
+        .hug-button:hover { transform: scale(1.06); filter: brightness(1.08); }
+        .hug-button:active { transform: scale(.96); }
+
+        .card { transform-style: preserve-3d; will-change: transform; }
+
+        .love-note p { transition: opacity .6s ease; }
+        .love-note p.fade { opacity: 0; }
+
+        .fx {
+            position: fixed;
+            pointer-events: none;
+            z-index: 50;
+            user-select: none;
+        }
+
+        .burst { animation: burst 1s ease-out forwards; }
+        .sparkle { animation: sparkle .8s ease-out forwards; }
+        .balloon { animation: rise linear forwards; z-index: 0; }
+        .rain { animation: falling linear forwards; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        @keyframes burst {
+            from { transform: translate(-50%, -50%) scale(.4); opacity: 1; }
+            to {
+                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.3) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+
+        @keyframes sparkle {
+            from { transform: translate(-50%, -50%) scale(1); opacity: .9; }
+            to { transform: translate(-50%, calc(-50% + 22px)) scale(.2); opacity: 0; }
+        }
+
+        @keyframes rise {
+            from { transform: translateY(0) translateX(0); opacity: .85; }
+            50% { transform: translateY(-60vh) translateX(22px); }
+            to { transform: translateY(-120vh) translateX(-12px); opacity: 0; }
+        }
+
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -414,11 +496,16 @@
                     <span>Mẹ Yêu ❤️</span>
                 </h1>
 
-                <p class="hero-description">
+                <p class="hero-description" id="typewriter"
+                   data-text="Có những lời yêu thương đôi khi thật khó nói thành lời. Con đã chuẩn bị một món quà nhỏ dành riêng cho mẹ. Mẹ hãy chọn một tấm thiệp nhé!">
                     Có những lời yêu thương đôi khi thật khó nói thành lời.
                     Con đã chuẩn bị một món quà nhỏ dành riêng cho mẹ.
                     Mẹ hãy chọn một tấm thiệp nhé!
                 </p>
+
+                <div class="today-banner" id="todayBanner"></div>
+                <br>
+                <button class="hug-button" id="hugBtn" type="button">🤗 Gửi mẹ một cái ôm</button>
 
                 <div class="divider">✧ ♡ ✧</div>
             </section>
@@ -486,6 +573,157 @@
     </div>
 
     <script>
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const rand = (a, b) => a + Math.random() * (b - a);
+
+        /* 1. Banner ngày 20/10 / đếm ngược */
+        (function () {
+            const el = document.getElementById("todayBanner");
+            const now = new Date();
+            let target = new Date(now.getFullYear(), 9, 20);
+            const isToday = now.getMonth() === 9 && now.getDate() === 20;
+            if (isToday) {
+                el.textContent = "🎉 Hôm nay là 20/10 — chúc mẹ một ngày thật vui!";
+            } else {
+                if (now > target) target = new Date(now.getFullYear() + 1, 9, 20);
+                const days = Math.ceil((target - now) / 86400000);
+                el.textContent = "⏳ Còn " + days + " ngày nữa là đến 20/10";
+            }
+        })();
+
+        /* 2. Chữ chạy */
+        (function () {
+            const el = document.getElementById("typewriter");
+            const text = el.dataset.text;
+            if (reduceMotion) return;
+            el.textContent = "";
+            el.classList.add("typewriter-cursor");
+            let i = 0;
+            const timer = setInterval(() => {
+                el.textContent = text.slice(0, ++i);
+                if (i >= text.length) {
+                    clearInterval(timer);
+                    setTimeout(() => el.classList.remove("typewriter-cursor"), 1500);
+                }
+            }, 35);
+        })();
+
+        /* 3. Tim/hoa nổ tung */
+        function burstAt(x, y, count = 12) {
+            const icons = ["💖", "🌸", "🌹", "✨", "💕", "🌷"];
+            for (let i = 0; i < count; i++) {
+                const s = document.createElement("span");
+                const angle = (Math.PI * 2 * i) / count + rand(-.3, .3);
+                const dist = rand(60, 140);
+                s.className = "fx burst";
+                s.textContent = icons[Math.floor(Math.random() * icons.length)];
+                s.style.left = x + "px";
+                s.style.top = y + "px";
+                s.style.fontSize = rand(16, 28) + "px";
+                s.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+                s.style.setProperty("--dy", Math.sin(angle) * dist + "px");
+                s.style.setProperty("--rot", rand(-120, 120) + "deg");
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 1000);
+            }
+        }
+
+        if (!reduceMotion) {
+            document.addEventListener("click", (e) => {
+                if (e.target.closest("#hugBtn")) return;
+                burstAt(e.clientX, e.clientY);
+            });
+
+            /* 4. Vệt lấp lánh theo chuột */
+            let lastSpark = 0;
+            document.addEventListener("pointermove", (e) => {
+                if (e.pointerType === "touch") return;
+                const t = Date.now();
+                if (t - lastSpark < 70) return;
+                lastSpark = t;
+                const s = document.createElement("span");
+                s.className = "fx sparkle";
+                s.textContent = ["✨", "💗", "✦"][Math.floor(Math.random() * 3)];
+                s.style.left = e.clientX + "px";
+                s.style.top = e.clientY + "px";
+                s.style.fontSize = rand(10, 18) + "px";
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 800);
+            });
+
+            /* 5. Nghiêng thẻ 3D */
+            document.querySelectorAll(".card").forEach((card) => {
+                card.addEventListener("pointermove", (e) => {
+                    if (e.pointerType === "touch") return;
+                    const r = card.getBoundingClientRect();
+                    const px = (e.clientX - r.left) / r.width - .5;
+                    const py = (e.clientY - r.top) / r.height - .5;
+                    card.style.transform =
+                        "perspective(800px) rotateX(" + (-py * 8) + "deg) rotateY(" + (px * 8) + "deg) translateY(-7px)";
+                });
+                card.addEventListener("pointerleave", () => { card.style.transform = ""; });
+            });
+
+            /* 6. Bóng bay bay lên */
+            const balloons = ["🎈", "🎈", "🎀", "🎊"];
+            function createBalloon() {
+                const b = document.createElement("span");
+                b.className = "fx balloon";
+                b.textContent = balloons[Math.floor(Math.random() * balloons.length)];
+                b.style.left = rand(2, 95) + "vw";
+                b.style.bottom = "-60px";
+                b.style.fontSize = rand(26, 44) + "px";
+                b.style.animationDuration = rand(10, 16) + "s";
+                document.body.appendChild(b);
+                setTimeout(() => b.remove(), 16500);
+            }
+            setInterval(createBalloon, 3500);
+        }
+
+        /* 7. Nút gửi cái ôm: mưa tim */
+        document.getElementById("hugBtn").addEventListener("click", (e) => {
+            const btn = e.currentTarget;
+            const r = btn.getBoundingClientRect();
+            btn.textContent = "💞 Con yêu mẹ nhiều lắm!";
+            setTimeout(() => { btn.textContent = "🤗 Gửi mẹ một cái ôm"; }, 3000);
+            burstAt(r.left + r.width / 2, r.top + r.height / 2, 20);
+            if (reduceMotion) return;
+            for (let i = 0; i < 35; i++) {
+                setTimeout(() => {
+                    const h = document.createElement("span");
+                    h.className = "fx rain";
+                    h.textContent = ["💖", "💗", "💕", "🌹"][Math.floor(Math.random() * 4)];
+                    h.style.left = rand(0, 98) + "vw";
+                    h.style.top = "-40px";
+                    h.style.fontSize = rand(18, 34) + "px";
+                    h.style.animationDuration = rand(3, 6) + "s";
+                    document.body.appendChild(h);
+                    setTimeout(() => h.remove(), 6500);
+                }, i * 90);
+            }
+        });
+
+        /* 8. Lời chúc xoay vòng */
+        (function () {
+            const messages = [
+                "\"Cảm ơn mẹ vì đã luôn là mái nhà bình yên nhất của con.\"",
+                "\"Mẹ ơi, con chúc mẹ luôn xinh đẹp, khỏe mạnh và thật nhiều niềm vui.\"",
+                "\"Mỗi ngày bên mẹ đều là một món quà quý giá với con.\"",
+                "\"Mẹ là người phụ nữ tuyệt vời nhất trên đời này.\"",
+                "\"Dù con lớn đến đâu, con vẫn luôn cần vòng tay của mẹ.\""
+            ];
+            const p = document.querySelector(".love-note p");
+            let idx = 0;
+            setInterval(() => {
+                p.classList.add("fade");
+                setTimeout(() => {
+                    idx = (idx + 1) % messages.length;
+                    p.textContent = messages[idx];
+                    p.classList.remove("fade");
+                }, 600);
+            }, 5000);
+        })();
+
         const petals = ["🌸", "🌹", "💕"];
 
         function createPetal() {
