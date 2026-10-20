@@ -1,0 +1,257 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    background: linear-gradient(135deg, #ffe4ec, #f0ddff, #fff0f5);
+}
+
+.menu-card {
+    width: 100%;
+    max-width: 520px;
+    padding: 40px 28px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 28px;
+    box-shadow: 0 15px 45px rgba(180, 80, 130, 0.18);
+}
+
+.flower {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.menu-card h1 {
+    color: #d64d86;
+    font-size: 36px;
+    margin: 10px 0;
+}
+
+.subtitle {
+    color: #775b70;
+    font-size: 17px;
+}
+
+.question {
+    margin: 28px 0 18px;
+    color: #8e4774;
+}
+
+.choice-button {
+    display: block;
+    text-decoration: none;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 17px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.choice-button span {
+    display: block;
+    font-size: 13px;
+    font-weight: normal;
+    margin-top: 8px;
+}
+
+.choice-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(100, 50, 100, 0.15);
+}
+
+.october {
+    color: #a22b64;
+    background: #ffe1ec;
+}
+
+.birthday {
+    color: #743f9c;
+    background: #eee0ff;
+}
+
+.footer {
+    margin-top: 28px;
+    color: #d64d86;
+    font-style: italic;
+}
+
+@media (max-width: 480px) {
+    .menu-card {
+        padding: 30px 18px;
+    }
+
+    .menu-card h1 {
+        font-size: 29px;
+    }
+
+    .choice-button {
+        font-size: 16px;
+    }
+}
+
+
+/* Giao dien thiep sinh nhat */
+.birthday-page {
+    min-height: 100vh;
+    padding: 30px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #ffe0eb, #e9d5ff, #fff1f5);
+}
+
+.birthday-card {
+    width: 100%;
+    max-width: 680px;
+    padding: 35px 28px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.94);
+    border: 2px solid #f8c8dd;
+    border-radius: 28px;
+    box-shadow: 0 15px 50px rgba(180, 80, 130, 0.2);
+}
+
+.top-flower {
+    font-size: 35px;
+}
+
+.small-title {
+    color: #b36a92;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-top: 22px;
+}
+
+.birthday-card h1 {
+    color: #d64d86;
+    font-size: clamp(28px, 5vw, 42px);
+    margin: 20px 0;
+}
+
+.cake {
+    font-size: 85px;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.birthday-card h2 {
+    color: #a54b87;
+}
+
+.wish {
+    color: #624b5c;
+    font-size: 16px;
+    line-height: 1.9;
+    margin: 25px auto;
+    max-width: 520px;
+}
+
+#giftButton {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    background: linear-gradient(135deg, #ec70a4, #b47bea);
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px #d88bb455;
+    transition: transform 0.2s;
+}
+
+#giftButton:hover {
+    transform: scale(1.05);
+}
+
+.hidden {
+    display: none;
+}
+
+#giftMessage {
+    margin-top: 28px;
+    padding: 20px;
+    background: #fff0f6;
+    border-radius: 20px;
+    color: #8c4774;
+    animation: appear 0.8s ease;
+}
+
+.big-heart {
+    font-size: 65px;
+    animation: heartbeat 1.2s infinite;
+}
+
+.signature {
+    font-weight: bold;
+    color: #d64d86;
+    font-size: 19px;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 25px;
+    color: #a34c83;
+    text-decoration: none;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+/* Hoa va trai tim bay */
+#flowers {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-flower {
+    position: absolute;
+    top: -50px;
+    animation: fall linear forwards;
+    opacity: 0.85;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.2;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

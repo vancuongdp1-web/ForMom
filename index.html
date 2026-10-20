@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Mom | A Gift From My Heart</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pink: #e85d91;
+            --dark-pink: #b83269;
+            --purple: #9b72cf;
+            --text: #68465b;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(ellipse at 10% 10%, #ffe0ed 0, transparent 40%),
+                radial-gradient(ellipse at 90% 90%, #e8dcff 0, transparent 42%),
+                linear-gradient(135deg, #fff7fb, #fff0f6 50%, #f8f1ff);
+            overflow-x: hidden;
+        }
+
+        .background-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: #ffb9d5;
+            filter: blur(100px);
+            opacity: .3;
+        }
+
+        .glow.one {
+            top: 5%;
+            left: -100px;
+        }
+
+        .glow.two {
+            bottom: 0;
+            right: -100px;
+            background: #c7a7ff;
+        }
+
+        .container {
+            width: min(100% - 36px, 1050px);
+            margin: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 27px 0;
+        }
+
+        .logo {
+            color: var(--dark-pink);
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+
+        .logo span {
+            margin-right: 7px;
+        }
+
+        .header-label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #a17b97;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 45px 0 35px;
+            animation: fadeUp 1s ease both;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 9px 17px;
+            border: 1px solid #f4c4d9;
+            border-radius: 30px;
+            background: #ffffffa8;
+            color: var(--dark-pink);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .hero-flowers {
+            font-size: 40px;
+            margin: 22px 0 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(38px, 7vw, 70px);
+            line-height: 1.12;
+            color: #bd477a;
+            font-weight: 500;
+            margin: 12px 0 18px;
+        }
+
+        h1 span {
+            display: block;
+            font-style: italic;
+            color: #9b72cf;
+        }
+
+        .hero-description {
+            max-width: 540px;
+            margin: auto;
+            font-size: 16px;
+            line-height: 1.9;
+            color: #85667d;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 30px 0;
+            color: #d889ad;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            width: 65px;
+            height: 1px;
+            background: #eac1d5;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 23px;
+        }
+
+        .section-title h2 {
+            font-family: Georgia, serif;
+            font-size: 27px;
+            font-weight: 500;
+            color: #875476;
+        }
+
+        .section-title p {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #a187a0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            padding: 29px;
+            border: 1px solid #ffffff;
+            border-radius: 25px;
+            background: #ffffffb8;
+            box-shadow: 0 15px 45px #b65f8412;
+            backdrop-filter: blur(12px);
+            transition: transform .3s, box-shadow .3s;
+            animation: fadeUp .8s ease both;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 22px 45px #b65f8424;
+        }
+
+        .card-october {
+            background: linear-gradient(145deg, #fffafd, #ffe8f1);
+        }
+
+        .card-birthday {
+            background: linear-gradient(145deg, #fffaff, #eee5ff);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            display: grid;
+            place-items: center;
+            border-radius: 20px;
+            font-size: 34px;
+            background: #ffffffbd;
+            box-shadow: 0 5px 20px #8c528310;
+        }
+
+        .card-number {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #b98ba8;
+        }
+
+        .card h3 {
+            font-family: Georgia, serif;
+            font-size: 27px;
+            line-height: 1.35;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #a83e72;
+        }
+
+        .card-birthday h3 {
+            color: #8355b1;
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #866d80;
+            min-height: 50px;
+        }
+
+        .open-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 24px;
+            padding: 15px 18px;
+            border-radius: 14px;
+            color: white;
+            background: linear-gradient(110deg, #e9699c, #cb6098);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 7px 18px #d85f941e;
+            transition: filter .2s, transform .2s;
+        }
+
+        .card-birthday .open-button {
+            background: linear-gradient(110deg, #a77cdb, #8860c3);
+        }
+
+        .open-button:hover {
+            filter: brightness(1.06);
+            transform: scale(1.02);
+        }
+
+        .arrow {
+            font-size: 21px;
+        }
+
+        .love-note {
+            max-width: 650px;
+            margin: 45px auto 0;
+            padding: 24px 20px;
+            text-align: center;
+            border-top: 1px solid #eacddd;
+            border-bottom: 1px solid #eacddd;
+        }
+
+        .love-note .heart {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .love-note p {
+            font-family: Georgia, serif;
+            font-size: 19px;
+            font-style: italic;
+            line-height: 1.7;
+            color: #ad5985;
+        }
+
+        footer {
+            text-align: center;
+            padding: 27px 0 30px;
+            color: #b18ca6;
+            font-size: 12px;
+            letter-spacing: .5px;
+        }
+
+        .petal {
+            position: fixed;
+            top: -40px;
+            z-index: 0;
+            pointer-events: none;
+            animation: falling linear forwards;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-9px); }
+        }
+
+        @keyframes falling {
+            to {
+                transform: translateY(110vh) rotate(300deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 20px 0;
+            }
+
+            .header-label {
+                font-size: 9px;
+                letter-spacing: 1px;
+            }
+
+            .hero {
+                padding: 40px 0 25px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .card h3 {
+                font-size: 25px;
+            }
+
+            .love-note p {
+                font-size: 17px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-glow">
+        <div class="glow one"></div>
+        <div class="glow two"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo"><span>🌷</span> WITH LOVE, MOM</div>
+            <div class="header-label">A LITTLE GIFT FROM MY HEART</div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="eyebrow">♡ A SPECIAL GIFT FOR YOU ♡</div>
+
+                <div class="hero-flowers">🌹 🌸 🌹</div>
+
+                <h1>
+                    Dành Tặng
+                    <span>Mẹ Yêu ❤️</span>
+                </h1>
+
+                <p class="hero-description">
+                    Có những lời yêu thương đôi khi thật khó nói thành lời.
+                    Con đã chuẩn bị một món quà nhỏ dành riêng cho mẹ.
+                    Mẹ hãy chọn một tấm thiệp nhé!
+                </p>
+
+                <div class="divider">✧ ♡ ✧</div>
+            </section>
+
+            <section>
+                <div class="section-title">
+                    <h2>Our Special Moments</h2>
+                    <p>Hai tấm thiệp nhỏ, ngàn lời yêu thương.</p>
+                </div>
+
+                <div class="cards">
+                    <article class="card card-october">
+                        <div class="card-top">
+                            <div class="card-icon">🌹</div>
+                            <div class="card-number">NO. 01 — LOVE</div>
+                        </div>
+
+                        <h3>Chúc Mừng<br>Ngày 20/10</h3>
+
+                        <p>
+                            Gửi đến mẹ những lời chúc ngọt ngào
+                            và lời cảm ơn từ tận đáy lòng con.
+                        </p>
+
+                        <a class="open-button" href="20-10.html">
+                            <span>Mở thiệp 20/10</span>
+                            <span class="arrow">↗</span>
+                        </a>
+                    </article>
+
+                    <article class="card card-birthday">
+                        <div class="card-top">
+                            <div class="card-icon">🎂</div>
+                            <div class="card-number">NO. 02 — JOY</div>
+                        </div>
+
+                        <h3>Happy Birthday,<br>Mom!</h3>
+
+                        <p>
+                            Chúc mẹ tuổi mới bình an, mạnh khỏe,
+                            luôn rạng rỡ và hạnh phúc mỗi ngày.
+                        </p>
+
+                        <a class="open-button" href="birthday_new.html">
+                            <span>Open Birthday Card</span>
+                            <span class="arrow">↗</span>
+                        </a>
+                    </article>
+                </div>
+            </section>
+
+            <section class="love-note">
+                <div class="heart">💗</div>
+                <p>
+                    "Cảm ơn mẹ vì đã luôn là mái nhà
+                    bình yên nhất của con."
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            MADE WITH LOVE ♡ JUST FOR MY MOM
+            <div style="margin-top: 9px;">🌷 🌸 🌷</div>
+        </footer>
+    </div>
+
+    <script>
+        const petals = ["🌸", "🌹", "💕"];
+
+        function createPetal() {
+            const petal = document.createElement("span");
+            petal.className = "petal";
+            petal.textContent =
+                petals[Math.floor(Math.random() * petals.length)];
+
+            petal.style.left = Math.random() * 100 + "vw";
+            petal.style.fontSize = (14 + Math.random() * 12) + "px";
+            petal.style.opacity = 0.3 + Math.random() * 0.5;
+            petal.style.animationDuration = (8 + Math.random() * 7) + "s";
+
+            document.body.appendChild(petal);
+
+            setTimeout(() => petal.remove(), 16000);
+        }
+
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setInterval(createPetal, 1300);
+        }
+    </script>
+</body>
+</html>
